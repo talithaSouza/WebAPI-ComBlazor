@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http;
 
 namespace DigitalCursosWeb
 {
@@ -21,6 +23,10 @@ namespace DigitalCursosWeb
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<HttpClient>(s =>
+            {
+                return new HttpClient { BaseAddress = new Uri(@"https://localhost:44352") };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
