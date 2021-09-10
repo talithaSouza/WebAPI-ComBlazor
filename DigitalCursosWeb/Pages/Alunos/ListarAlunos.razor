@@ -1,5 +1,5 @@
 ﻿@page "/alunos"
-@inject HttpClient http
+@inject IAlunoService alunoService
 <h3>Alunos</h3>
 
 @if (Alunos == null)
@@ -41,7 +41,8 @@ else
 
     protected async Task GetAlunos()
     {
-        Alunos = await http.GetFromJsonAsync<IEnumerable<Aluno>>("api/alunos");
+        //Alunos = await http.GetFromJsonAsync<IEnumerable<Aluno>>("api/alunos");
+        Alunos = await alunoService.GetAlunos();
     }
 
     private string CalculaIdade(DateTime DataNascimento)

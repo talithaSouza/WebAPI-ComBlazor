@@ -1,3 +1,4 @@
+using DigitalCursosWeb.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +24,15 @@ namespace DigitalCursosWeb
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<HttpClient>(s =>
+            /*services.AddScoped<HttpClient>(s =>
             {
                 return new HttpClient { BaseAddress = new Uri(@"https://localhost:44352") };
+            });*/
+
+            services.AddHttpClient<IAlunoService, AlunoService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44352");
+                client.DefaultRequestHeaders.Add("accept", "aplication/+json");
             });
         }
 
