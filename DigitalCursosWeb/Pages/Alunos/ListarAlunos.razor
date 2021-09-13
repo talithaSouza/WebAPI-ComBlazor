@@ -1,6 +1,23 @@
 ﻿@page "/alunos"
 @inject IAlunoService alunoService
 <h3>Alunos</h3>
+<style>
+    .navbar-toggle:hover{
+        background-color: #4d4d4d;
+    }
+</style>
+<div class="container">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="navbar-toggle">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Link One</a></li>
+                <li><a href="#">Link Two</a></li>
+                <li><a href="#">Link Three</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 @if (Alunos == null)
 {
@@ -15,17 +32,21 @@ else
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Idade</th>
+                <th colspan="2" align="left">Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var aluno in Alunos)
             {
-                <tr>
-                    <td>@aluno.AlunoId</td>
-                    <td>@aluno.Nome</td>
-                    <td>@aluno.Email</td>
-                    <td>@CalculaIdade(aluno.Nascimento)</td>
-                </tr>
+            <tr>
+                <td>@aluno.AlunoId</td>
+                <td>@aluno.Nome</td>
+                <td>@aluno.Email</td>
+                <td>@CalculaIdade(aluno.Nascimento)</td>
+                <td><button><a><i class="oi oi-pencil"></i></a></button></td>
+                <td><button><i class="oi oi-trash"></i></button></td>
+                
+            </tr>
             }
         </tbody>
     </table>
