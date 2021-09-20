@@ -1,23 +1,7 @@
 ﻿@page "/alunos"
 @inject IAlunoService alunoService
 <h3>Alunos</h3>
-<style>
-    .navbar-toggle:hover{
-        background-color: #4d4d4d;
-    }
-</style>
-<div class="container">
-    <div class="navbar">
-        <div class="navbar-inner">
-            <ul class="navbar-toggle">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Link One</a></li>
-                <li><a href="#">Link Two</a></li>
-                <li><a href="#">Link Three</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<a href="aluno/create" class="btn btn-outline-secondary">Criar Novo Aluno</a>
 
 @if (Alunos == null)
 {
@@ -43,8 +27,8 @@ else
                 <td>@aluno.Nome</td>
                 <td>@aluno.Email</td>
                 <td>@CalculaIdade(aluno.Nascimento)</td>
-                <td><button><a><i class="oi oi-pencil"></i></a></button></td>
-                <td><button><i class="oi oi-trash"></i></button></td>
+                <td><button><a href='/aluno/edit/@aluno.AlunoId'><i class="oi oi-pencil"></i></a></button></td>
+                <td><button><a href='/aluno/delete/@aluno.AlunoId'><i class="oi oi-trash"></i></a></button></td>
                 
             </tr>
             }

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Net.Http;
 
 namespace DigitalCursosWeb
 {
@@ -30,6 +29,12 @@ namespace DigitalCursosWeb
             });*/
 
             services.AddHttpClient<IAlunoService, AlunoService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44352");
+                client.DefaultRequestHeaders.Add("accept", "aplication/+json");
+            });
+
+            services.AddHttpClient<ICursoService, CursoService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44352");
                 client.DefaultRequestHeaders.Add("accept", "aplication/+json");

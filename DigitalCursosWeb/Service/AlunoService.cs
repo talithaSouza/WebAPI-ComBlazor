@@ -25,14 +25,14 @@ namespace DigitalCursosWeb.Service
         }
         public async Task<Aluno> GetAluno(int id)
         {
-            var aluno = await _httpClient.GetFromJsonAsync<Aluno>($"api/aluno/{id}");
+            var aluno = await _httpClient.GetFromJsonAsync<Aluno>($"api/alunos/{id}");
 
             return aluno;
         }
 
         public async Task<Aluno> CreateAluno(Aluno novoAluno)
         {
-            var response = await _httpClient.PutAsJsonAsync<Aluno>($"api/aluno", novoAluno);
+            var response = await _httpClient.PostAsJsonAsync<Aluno>($"api/alunos", novoAluno);
             var content = await response.Content.ReadFromJsonAsync<Aluno>();
 
             return content;
