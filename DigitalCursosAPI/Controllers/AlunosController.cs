@@ -74,7 +74,7 @@ namespace DigitalCursosAPI.Controllers
             try
             {
                 if (id != aluno.AlunoId)
-                    return BadRequest($"Aluno com id = {id} nõa confere com o aluno a ser atualizado");
+                    return BadRequest($"Aluno com id = {id} não confere com o aluno a ser atualizado");
 
                 var alunoToUpdate = await _alunoRepository.GetAluno(id);
                 if (alunoToUpdate == null)
