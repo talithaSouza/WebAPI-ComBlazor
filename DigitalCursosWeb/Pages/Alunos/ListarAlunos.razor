@@ -22,26 +22,32 @@ else
         <tbody>
             @foreach (var aluno in Alunos)
             {
-            <tr>
-                <td>@aluno.AlunoId</td>
-                <td>@aluno.Nome</td>
-                <td>@aluno.Email</td>
-                <td>@CalculaIdade(aluno.Nascimento)</td>
-                <td><button><a href='/aluno/edit/@aluno.AlunoId'><i class="oi oi-pencil"></i></a></button></td>
-                <td><button><a href='/aluno/delete/@aluno.AlunoId'><i class="oi oi-trash"></i></a></button></td>
-                
-            </tr>
+                <tr>
+                    <td>@aluno.AlunoId</td>
+                    <td>@aluno.Nome</td>
+                    <td>@aluno.Email</td>
+                    <td>@CalculaIdade(aluno.Nascimento)</td>
+                    <td><button><a href='/aluno/edit/@aluno.AlunoId'><i class="oi oi-pencil"></i></a></button></td>
+                    <td><button><a @onclick="@(()=>DeletarAluno(aluno.AlunoId))"><i class="oi oi-trash"></i></a></button></td>
+
+                </tr>
             }
         </tbody>
     </table>
 }
 
+<Mensagem @ref="alerta" onCancela="CancelaConfirma" onConfirma="DeletaConfirma">
+    <div>Deseja excluir esse aluno?</div>
+</Mensagem>
+
 @code {
     public IEnumerable<Aluno> Alunos { get; set; }
+    public int codigoAluno { get; set; }
+    private Mensagem alerta;
 
     protected async override Task OnInitializedAsync()
     {
-           await GetAlunos();
+        await GetAlunos();
     }
 
     protected async Task GetAlunos()
@@ -59,5 +65,23 @@ else
             return "-";
 
         return (anoAtual - anoNascimento).ToString();
+    }
+
+    void DeletarAluno(int id)
+    {
+        alerta.Exibir();
+        codigoAluno = id;
+    }
+
+    void CancelaConfirma()
+    {
+        alerta.Ocultar();
+    }
+
+    async Task DeletaConfirma()
+    {
+        await alunoService.DeleteAluno(codigoAluno);
+        alerta.Ocultar();
+        await GetAlunos();
     }
 }
