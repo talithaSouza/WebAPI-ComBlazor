@@ -1,0 +1,76 @@
+﻿@page  "/cadastro"
+@inject NavigationManager navigation
+
+<h3 style="text-align:center">Cadastro de Usuario</h3>
+
+<div class="container" style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 75vw; height: 25vh; ">
+    <div class="col-sm-8">
+        <label form="nome">Email</label>
+        <div class="">
+            <input class="form-control" type="password" @bind-value="Usuario.Email" required />
+
+        </div>
+
+        <label form="senha">Senha</label>
+        <div class="">
+            <input class="form-control" type="password" @bind-value="Usuario.Senha" required />
+        </div>
+
+        <label form="senha">Confirme Sua Senha</label>
+        <div class="">
+            <input class="form-control" type="password" @bind-value="senhaConfirmar" required />
+        </div>
+    </div>
+</div>
+<br />
+<div class="form-inline" style="justify-content: center">
+    <button type="submit" class="btn btn-success" style="margin-right:4px" @onclick="() =>validaSenha()">Cadastrar</button>
+
+    <button type="submit" class="btn btn-danger"
+            @onclick="@(()=> navigation.NavigateTo("login"))">
+        Cancelar
+    </button>
+</div>
+<div style="padding-top:20px">
+    @if (alerta)
+    {
+        <div class="alert alert-danger" style="text-align:center" role="alert">
+            @MensagemAlerta
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="() =>ocultarMensage()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    }
+</div>
+
+@code {
+    Usuario Usuario { get; set; } = new Usuario();
+    private string senhaConfirmar;
+    private bool alerta = false;
+    private string MensagemAlerta;
+
+    private void validaSenha()
+    {
+        if (string.IsNullOrWhiteSpace(Usuario.Senha) || string.IsNullOrWhiteSpace(senhaConfirmar))
+        {
+            alerta = true;
+            MensagemAlerta = "Preencha o campo de senha!!";
+            return;
+        }
+
+        if (Usuario.Senha != senhaConfirmar)
+        {
+            alerta = true;
+            MensagemAlerta = "Campo de senhas não coincidem";
+            return;
+        }
+
+        alerta = false;
+    }
+
+    private void ocultarMensage()
+    {
+        alerta = false;
+    }
+}

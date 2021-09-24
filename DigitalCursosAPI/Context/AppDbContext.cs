@@ -27,6 +27,7 @@ namespace DigitalCursosAPI.Context
             mb.Entity<Aluno>()
                 .Property(x => x.Email).HasMaxLength(100);
 
+            #region Tabela Cursos E Dados
             //Curso
             mb.Entity<Curso>()
                 .HasKey(x => x.CursoId);
@@ -94,6 +95,17 @@ namespace DigitalCursosAPI.Context
                     CursoId = 2
                 }
             );
+            #endregion
+
+            #region Tabela Usuarios
+            //Usuarios
+            mb.Entity<Usuario>()
+                .HasKey(x => x.Id);
+            mb.Entity<Usuario>()
+                .Property(x => x.Email).HasMaxLength(50);
+            mb.Entity<Usuario>()
+                .Property(x => x.Senha).HasMaxLength(100);
+            #endregion
 
         }
     }
