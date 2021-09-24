@@ -1,7 +1,19 @@
 ﻿@page "/alunos"
 @inject IAlunoService alunoService
 <h3>Alunos</h3>
-<a href="aluno/create" class="btn btn-outline-secondary">Criar Novo Aluno</a>
+<div class="col-sm-5" style="margin-left: -1%">
+    <a href="aluno/create" class="btn btn-outline-secondary">Criar Novo Aluno</a>
+</div>
+<br />
+
+<div style="float:left; width:70%; padding-bottom:10px; margin-left: -1%">
+    <div class="col-sm-5" style="float: left; margin-left: 0%">
+        <input class="form-control" type="text" placeholder="Filtrar por nome" @bind="@SearchString"/>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-default btn-info" @onclick="@FilterAluno">Filtrar</button>
+    </div>
+</div>
 
 @if (Alunos == null)
 {
@@ -42,8 +54,15 @@ else
 
 @code {
     public IEnumerable<Aluno> Alunos { get; set; }
+    protected string SearchString { get; set; }
     public int codigoAluno { get; set; }
     private Mensagem alerta;
+
+    protected async Task FilterAluno()
+    {
+        if (!string.IsNullOrWhiteSpace(SearchString))
+            Alunos = Alunos.Where(x => x.Nome.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1);
+    }
 
     protected async override Task OnInitializedAsync()
     {
