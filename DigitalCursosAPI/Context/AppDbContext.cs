@@ -14,6 +14,7 @@ namespace DigitalCursosAPI.Context
 
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {

@@ -28,6 +28,7 @@ namespace DigitalCursosAPI
 
             services.AddScoped<IAlunoRepository, AlunoRepository>();
             services.AddScoped<ICursoRepository, CursoRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             services.AddControllers();
         }

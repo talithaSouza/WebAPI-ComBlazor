@@ -1,4 +1,5 @@
 using DigitalCursosWeb.Service;
+using DigitalUsuariosWeb.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,11 +31,17 @@ namespace DigitalCursosWeb
 
             services.AddHttpClient<IAlunoService, AlunoService>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44352");
+                client.BaseAddress = new Uri("https://localhost:44352"); 
                 client.DefaultRequestHeaders.Add("accept", "aplication/+json");
             });
 
             services.AddHttpClient<ICursoService, CursoService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44352");
+                client.DefaultRequestHeaders.Add("accept", "aplication/+json");
+            });
+
+            services.AddHttpClient<IUsuarioService, UsuarioService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44352");
                 client.DefaultRequestHeaders.Add("accept", "aplication/+json");

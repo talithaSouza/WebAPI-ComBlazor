@@ -1,4 +1,5 @@
 ﻿@page  "/cadastro"
+@inject IUsuarioService usuarioService 
 @inject NavigationManager navigation
 
 <h3 style="text-align:center">Cadastro de Usuario</h3>
@@ -27,7 +28,7 @@
     <button type="submit" class="btn btn-success" style="margin-right:4px" @onclick="() =>validaSenha()">Cadastrar</button>
 
     <button type="submit" class="btn btn-danger"
-            @onclick="@(()=> navigation.NavigateTo("login"))">
+            @onclick="@(() => navigation.NavigateTo("login"))">
         Cancelar
     </button>
 </div>
@@ -72,5 +73,11 @@
     private void ocultarMensage()
     {
         alerta = false;
+        validarLogin("aa", "aa");
+    }
+
+    private void validarLogin(string email, string senha)
+    {
+        //var usuario = usuarioService.GetUsuarios();
     }
 }
