@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DigitalUsuariosWeb.Service
+namespace DigitalCursosWeb.Service
 {
     public interface IUsuarioService
     {
-        Task<IEnumerable<Usuario>> GetUsuarios();
-        public Task<Usuario> GetUsuario(int ID);
+        public Task<IEnumerable<Usuario>> GetUsuarios();
+        public Task<Usuario> GetUsuario(int id);
         public Task<Usuario> CreateUsuario(Usuario Usuario);
         public Task<Usuario> UpdateUsuario(Usuario Usuario);
-        public Task DeleteUsuario(int ID);
+        public Task DeleteUsuario(int IdUsuario);
     }
 }

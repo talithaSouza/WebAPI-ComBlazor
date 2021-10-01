@@ -1,46 +1,50 @@
 ﻿using DigitalCursos.Models.Models;
-using DigitalUsuariosWeb.Service;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Net.Http.Json;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace DigitalCursosWeb.Service
 {
     public class UsuarioService : IUsuarioService
     {
         public HttpClient _httpClient;
-
-        public UsuarioService(HttpClient httpClient)
+        public UsuarioService(HttpClient httpclient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpclient;
         }
-
-        public async Task<Usuario> CreateUsuario(Usuario Usuario)
-        {
-            var addUsuario = await _httpClient.PutAsJsonAsync<Usuario>($"api/usuario", Usuario);
-            var content = await addUsuario.Content.ReadFromJsonAsync<Usuario>();
-            return content;
-        }
-
-        public Task DeleteUsuario(int ID)
-        {
-            return _httpClient.DeleteAsync($"api/usuario/{ID}");
-        }
-
-        public async Task<Usuario> GetUsuario(int ID)
-            => await _httpClient.GetFromJsonAsync<Usuario>($"api/usuario/{ID}");
-        
 
         public async Task<IEnumerable<Usuario>> GetUsuarios()
-            => await _httpClient.GetFromJsonAsync<IEnumerable<Usuario>>("api/usuario");
+        {
+            var Usuarios = await _httpClient.GetFromJsonAsync<IEnumerable<Usuario>>("api/Usuarios");
 
+            return Usuarios;
+        }
+        public async Task<Usuario> GetUsuario(int id)
+        {
+            var Usuario = await _httpClient.GetFromJsonAsync<Usuario>($"api/Usuarios/{id}");
+
+            return Usuario;
+        }
+
+        public async Task<Usuario> CreateUsuario(Usuario novoUsuario)
+        {
+            var response = await _httpClient.PostAsJsonAsync<Usuario>($"api/Usuarios", novoUsuario);
+            var content = await response.Content.ReadFromJsonAsync<Usuario>();
+
+            return content;
+        }
 
         public async Task<Usuario> UpdateUsuario(Usuario Usuario)
         {
-            var updateUsuario = await _httpClient.PostAsJsonAsync<Usuario>($"api/usuario/{Usuario.Id}", Usuario);
-            var content = await updateUsuario.Content.ReadFromJsonAsync<Usuario>();
+            var response = await _httpClient.PutAsJsonAsync<Usuario>($"api/Usuarios/{Usuario.Id}", Usuario);
+            var content = await response.Content.ReadFromJsonAsync<Usuario>();
+
             return content;
+        }
+        public async Task DeleteUsuario(int IdUsuario)
+        {
+            await _httpClient.DeleteAsync($"api/Usuarios/{IdUsuario}");
         }
     }
 }
