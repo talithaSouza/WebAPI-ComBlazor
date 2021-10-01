@@ -71,11 +71,11 @@ namespace DigitalCursosAPI.Controllers
         [HttpPut("{Id:int}")]
         public async Task<ActionResult<Usuario>> UpdateUsuario(int Id, Usuario usuario)
         {
-            if(Id != usuario.Id)
+            if (Id != usuario.Id)
                 return BadRequest($"Usuario com id = {Id} não confere com o usuario a ser atualizado");
 
             var usuarioUpdate = await _usuarioRepository.GetUsuario(Id);
-            if(usuarioUpdate == null)
+            if (usuarioUpdate == null)
                 return NotFound($"Usuario com id {Id} não foi encontrado");
 
             return await _usuarioRepository.UpdateUsuario(usuario);
@@ -95,6 +95,23 @@ namespace DigitalCursosAPI.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, " Erro ao retornar alunos");
+            }
+        }
+
+        [HttpGet("{email}/{senha}")]
+        public async Task<ActionResult> RetornarPorUsuarioESenha(string email, string senha)
+        {
+            try
+            {
+                var result = await _usuarioRepository.RetornarPorUsuarioESenha(email, senha);
+                if (result == null)
+                    return NotFound($"Usuario com email e senha não foi encontrado");
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, " Erro ao retornar usuarios");
             }
         }
     }

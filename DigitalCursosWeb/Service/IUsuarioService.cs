@@ -11,5 +11,6 @@ namespace DigitalCursosWeb.Service
         public Task<Usuario> CreateUsuario(Usuario Usuario);
         public Task<Usuario> UpdateUsuario(Usuario Usuario);
         public Task DeleteUsuario(int IdUsuario);
+        public Task<Usuario> RetornarPorUsuarioESenha(string email, string senha);
     }
 }

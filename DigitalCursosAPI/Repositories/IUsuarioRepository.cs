@@ -11,5 +11,6 @@ namespace DigitalCursosAPI.Repositories
         Task<Usuario> AddUsuario(Usuario usuario);
         Task<Usuario> UpdateUsuario(Usuario usuario);
         Task<Usuario> DeleteUsuario(int id);
+        Task<Usuario> RetornarPorUsuarioESenha(string email, string senha);
     }
 }

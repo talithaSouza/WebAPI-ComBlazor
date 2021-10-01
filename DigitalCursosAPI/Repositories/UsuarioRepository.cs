@@ -55,5 +55,11 @@ namespace DigitalCursosAPI.Repositories
             }
             return null;
         }
+
+        public async Task<Usuario> RetornarPorUsuarioESenha(string email, string senha)
+        {
+            return _context.Usuarios.AsNoTracking().FirstOrDefault(x => x.Email == email && x.Senha == senha);
+
+        }
     }
 }

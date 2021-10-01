@@ -1,5 +1,5 @@
 ﻿@page  "/cadastro"
-@inject IUsuarioService usuarioService 
+@inject IUsuarioService usuarioService
 @inject NavigationManager navigation
 
 <h3 style="text-align:center">Cadastro de Usuario</h3>
@@ -8,8 +8,7 @@
     <div class="col-sm-8">
         <label form="nome">Email</label>
         <div class="">
-            <input class="form-control" type="password" @bind-value="Usuario.Email" required />
-
+            <input class="form-control" type="email" @bind-value="Usuario.Email" required />
         </div>
 
         <label form="senha">Senha</label>
@@ -25,7 +24,7 @@
 </div>
 <br />
 <div class="form-inline" style="justify-content: center">
-    <button type="submit" class="btn btn-success" style="margin-right:4px" @onclick="() =>validaSenha()">Cadastrar</button>
+    <button type="submit" class="btn btn-success" style="margin-right:4px" @onclick="() =>cadastrarUsuario(Usuario)">Cadastrar</button>
 
     <button type="submit" class="btn btn-danger"
             @onclick="@(() => navigation.NavigateTo("login"))">
@@ -35,7 +34,7 @@
 <div style="padding-top:20px">
     @if (alerta)
     {
-        <div class="alert alert-danger" style="text-align:center" role="alert">
+        <div class="@tipo" style="text-align:center" role="alert">
             @MensagemAlerta
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="() =>ocultarMensage()">
                 <span aria-hidden="true">&times;</span>
@@ -50,34 +49,65 @@
     private string senhaConfirmar;
     private bool alerta = false;
     private string MensagemAlerta;
+    private string tipo;
 
-    private void validaSenha()
+    protected async override Task OnInitializedAsync()
+    {
+        ocultarMensage();
+    }
+
+
+    private bool validaSenha()
     {
         if (string.IsNullOrWhiteSpace(Usuario.Senha) || string.IsNullOrWhiteSpace(senhaConfirmar))
         {
-            alerta = true;
-            MensagemAlerta = "Preencha o campo de senha!!";
-            return;
+            exibeMensagem("alert alert-danger", "Preencha o campo de senha!!");
+            return false;
         }
 
         if (Usuario.Senha != senhaConfirmar)
         {
-            alerta = true;
-            MensagemAlerta = "Campo de senhas não coincidem";
-            return;
+            exibeMensagem("alert alert-danger", "Campo de senhas não coincidem");
+            return false;
         }
 
-        alerta = false;
+        ocultarMensage();
+        return true;
     }
 
     private void ocultarMensage()
     {
         alerta = false;
-        validarLogin("aa", "aa");
+    }
+    private bool validaEmail(string email)
+    {
+        if (!email.Contains("@"))
+            return false;
+
+        return true;
+    }
+    private void exibeMensagem(string tipo, string mensagem)
+    {
+        alerta = true;
+        this.tipo = tipo;
+        MensagemAlerta = mensagem;
     }
 
-    private void validarLogin(string email, string senha)
+    private async void cadastrarUsuario(Usuario usuario)
     {
-        var usuario = usuarioService.GetUsuarios();
+        if (validaSenha())
+        {
+            if (!validaEmail(usuario.Email))
+            {
+                exibeMensagem("alert alert-danger", "Preencha o campo de email corretamente!!");
+                return;
+            }
+            var usu = await usuarioService.CreateUsuario(usuario);
+            if (usu != null)
+            {
+                exibeMensagem("alert alert-success", "Usuario Cadastrado com Sucesso");
+                Usuario = null;
+            }
+        }
     }
 }
